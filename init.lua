@@ -13,6 +13,14 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
+--
+-- Basic settings for line length
+vim.opt.textwidth = 110       -- Set maximum line length to 80 characters
+vim.opt.colorcolumn = "120"   -- Highlight the 81st column as a visual guide
+vim.opt.wrap = false         -- Disable line wrapping
+vim.opt.sidescroll = 0       -- Disable horizontal scrolling
+vim.opt.ruler = true         -- Show cursor posiion in status line 
+
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
@@ -75,12 +83,16 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
---
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Keymaps to move seasily between buffers 
+vim.keymap.set('n', '<S-l>','<CMD>bn<CR>', {desc = 'Move to next buffer'})
+vim.keymap.set('n', '<S-h>','<CMD>bp<CR>', {desc = 'Move to previous buffer'})
+
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -853,5 +865,5 @@ require('lazy').setup({
   },
 })
 
-vim.cmd.colorscheme("evergarden")
+vim.cmd.colorscheme("rose-pine")
 
