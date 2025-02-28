@@ -121,8 +121,8 @@ return {
       require('nordic').load()
       require('nordic').setup {
         transparent = {
-          bg = true,
-          float = true,
+          bg = false,
+          float = false,
         },
       }
     end,
@@ -130,7 +130,7 @@ return {
   { 'shaunsingh/nord.nvim', lazy = false, priority = 1000 },
   { 'rose-pine/neovim', name = 'rose-pine', opts = {
     styles = {
-      transparency = true,
+      transparency = false,
     },
   } },
 }
