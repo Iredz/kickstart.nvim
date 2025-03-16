@@ -96,6 +96,10 @@ return {
   { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
   {
     'cpea2506/one_monokai.nvim',
+    opts = {
+      transparent = true,
+      italics = true
+    }
   },
   {
     'sainnhe/sonokai',

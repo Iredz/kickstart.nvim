@@ -15,8 +15,8 @@ vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 --
 -- Basic settings for line length
-vim.opt.textwidth = 110       -- Set maximum line length to 80 characters
-vim.opt.colorcolumn = "120"   -- Highlight the 81st column as a visual guide
+vim.opt.textwidth = 80       -- Set maximum line length to 80 characters
+-- vim.opt.colorcolumn = "120"   -- Highlight the 81st column as a visual guide
 vim.opt.wrap = false         -- Disable line wrapping
 vim.opt.sidescroll = 0       -- Disable horizontal scrolling
 vim.opt.ruler = true         -- Show cursor posiion in status line 
@@ -586,6 +586,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         go = { 'gofumpt' },
         python = { 'ruff' },
+        django = { 'djlint' },
         html = { 'ast_grep' },
         css = { 'ast_grep' },
         javascript = { 'biome', 'prettier', stop_after_first = true },
@@ -865,5 +866,5 @@ require('lazy').setup({
   },
 })
 
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("one_monokai")
 
