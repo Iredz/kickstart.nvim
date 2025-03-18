@@ -531,6 +531,7 @@ require('lazy').setup({
         'gofumpt',
         'biome',
         'ruff',
+        'blue',
         'revive',
         'ast_grep',
       })
@@ -585,8 +586,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gofumpt' },
-        python = { 'ruff' },
-        django = { 'djlint' },
+        python = { 'blue','ruff' },
         html = { 'ast_grep' },
         css = { 'ast_grep' },
         javascript = { 'biome', 'prettier', stop_after_first = true },
