@@ -98,8 +98,8 @@ return {
     'cpea2506/one_monokai.nvim',
     opts = {
       transparent = true,
-      italics = true
-    }
+      italics = true,
+    },
   },
   {
     'sainnhe/sonokai',
@@ -137,4 +137,28 @@ return {
       transparency = false,
     },
   } },
+  {
+    'craftzdog/solarized-osaka.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = false,
+      terminal_colors = true,
+      styles = {
+        comments = { italic = true },
+        keywords = { italic = true },
+        functions = { italic = true },
+      },
+    },
+  },
+  {
+    'projekt0n/github-nvim-theme',
+    name = 'github-theme',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('github-theme').setup {
+      }
+    end,
+  },
 }

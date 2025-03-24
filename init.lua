@@ -866,5 +866,5 @@ require('lazy').setup({
   },
 })
 
-vim.cmd.colorscheme("one_monokai")
+vim.cmd.colorscheme("github_light_default")
 
