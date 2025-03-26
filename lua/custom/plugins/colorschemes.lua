@@ -157,8 +157,11 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      require('github-theme').setup {
-      }
+      require('github-theme').setup {}
     end,
+  },
+  {
+    'olimorris/onedarkpro.nvim',
+    priority = 1000, 
   },
 }

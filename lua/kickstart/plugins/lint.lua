@@ -7,8 +7,8 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
-        html = { 'ast_grep' },
-        css = { 'ast_grep' },
+        html = { 'htmlhint' },
+        css = { 'stylelint' },
         javascript = { 'biome' },
         typescript = { 'biome' },
         go = { 'revive' },
