@@ -1,6 +1,5 @@
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -15,12 +14,11 @@ vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 --
 -- Basic settings for line length
-vim.opt.textwidth = 80       -- Set maximum line length to 80 characters
+vim.opt.textwidth = 80 -- Set maximum line length to 80 characters
 -- vim.opt.colorcolumn = "120"   -- Highlight the 81st column as a visual guide
-vim.opt.wrap = false         -- Disable line wrapping
-vim.opt.sidescroll = 0       -- Disable horizontal scrolling
-vim.opt.ruler = true         -- Show cursor posiion in status line 
-
+vim.opt.wrap = false -- Disable line wrapping
+vim.opt.sidescroll = 0 -- Disable horizontal scrolling
+vim.opt.ruler = true -- Show cursor posiion in status line
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
@@ -89,10 +87,9 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- Keymaps to move seasily between buffers 
-vim.keymap.set('n', '<S-l>','<CMD>bn<CR>', {desc = 'Move to next buffer'})
-vim.keymap.set('n', '<S-h>','<CMD>bp<CR>', {desc = 'Move to previous buffer'})
-
+-- Keymaps to move seasily between buffers
+vim.keymap.set('n', '<S-l>', '<CMD>bn<CR>', { desc = 'Move to next buffer' })
+vim.keymap.set('n', '<S-h>', '<CMD>bp<CR>', { desc = 'Move to previous buffer' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -479,7 +476,18 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         gopls = {},
-        -- pyright = {},
+        pyright = {},
+        -- djlsp = {
+        --   cmd = { '/home/redz/.local/share/nvim/mason/packages/django-template-lsp/venv/bin/django-template-lsp' },
+        --   init_options = {
+        --     django_settings_module = 'settings.py',
+        --   },
+        --   filetypes = { 'html', 'htmldjango' },
+        --   root_dir = function(fname)
+        --     return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+        --   end,
+        --   settings = {},
+        -- },
         ts_ls = {},
         cssls = {},
         html = {},
@@ -506,10 +514,11 @@ require('lazy').setup({
         'stylua',
         'gofumpt',
         'biome',
-        'ruff',
         'blue',
         'revive',
-        'prettierd'
+        'prettierd',
+        'djlsp',
+        'djlint'
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -522,6 +531,15 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+        },
+      }
+      require('lspconfig').djlsp.setup {
+        -- cmd = { '/home/redz/.local/share/nvim/mason/packages/django-template-lsp/venv/bin/django-template-lsp' },
+        filetypes = { 'html', 'htmldjango' },
+        init_options = {
+          django_settings_module = 'settings.py',
+          docker_compose_file = 'docker-compose.yml',
+          docker_compose_service = 'django',
         },
       }
     end,
@@ -562,8 +580,9 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gofumpt' },
-        python = { 'blue','ruff' },
+        python = { 'blue', 'ruff' },
         html = { 'prettierd' },
+        htmldjango = { 'djlint' },
         css = { 'prettierd' },
         javascript = { 'biome', 'prettierd', stop_after_first = true },
         typescript = { 'biome', 'prettierd', stop_after_first = true },
@@ -579,8 +598,6 @@ require('lazy').setup({
       {
         'L3MON4D3/LuaSnip',
         build = (function()
-          -- Build Step is needed for regex support in snippets.
-          -- This step is not supported in many windows environments.
           -- Remove the below condition to re-enable on windows.
           if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
             return
@@ -595,21 +612,17 @@ require('lazy').setup({
             'rafamadriz/friendly-snippets',
             config = function()
               require('luasnip.loaders.from_vscode').lazy_load()
+              require('luasnip').filetype_extend('htmldjango', { 'html' })
             end,
           },
         },
       },
       'saadparwaiz1/cmp_luasnip',
-
-      -- Adds other completion capabilities.
-      --  nvim-cmp does not ship with all sources by default. They are split
-      --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-nvim-lsp-signature-help',
     },
     config = function()
-      -- See `:help cmp`
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
@@ -622,10 +635,6 @@ require('lazy').setup({
         },
         completion = { completeopt = 'menu,menuone,noinsert' },
 
-        -- For an understanding of why these mappings were
-        -- chosen, you will need to read `:help ins-completion`
-        --
-        -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
           ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -762,6 +771,7 @@ require('lazy').setup({
     opts = {
       ensure_installed = {
         'html',
+        'htmldjango',
         'css',
         'javascript',
         'typescript',
@@ -842,5 +852,4 @@ require('lazy').setup({
   },
 })
 
-vim.cmd.colorscheme("onedark")
-
+vim.cmd.colorscheme 'one_monokai'

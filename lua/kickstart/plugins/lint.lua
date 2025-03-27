@@ -12,7 +12,9 @@ return {
         javascript = { 'biome' },
         typescript = { 'biome' },
         go = { 'revive' },
-        python = { 'ruff' },
+        python = { 'pylint' },
+        django = { 'djlint' },
+        htmldjango = { 'djlint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -53,9 +55,6 @@ return {
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
-          -- Only run the linter in buffers that you can modify in order to
-          -- avoid superfluous noise, notably within the handy LSP pop-ups that
-          -- describe the hovered symbol using Markdown.
           if vim.opt_local.modifiable:get() then
             lint.try_lint()
           end
