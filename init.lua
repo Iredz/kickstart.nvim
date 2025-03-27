@@ -517,7 +517,6 @@ require('lazy').setup({
         'blue',
         'revive',
         'prettierd',
-        'djlsp',
         'djlint'
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
