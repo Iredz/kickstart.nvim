@@ -532,13 +532,16 @@ require('lazy').setup({
         },
       }
       require('lspconfig').djlsp.setup {
-        -- cmd = { '/home/redz/.local/share/nvim/mason/packages/django-template-lsp/venv/bin/django-template-lsp' },
         filetypes = { 'html', 'htmldjango' },
         init_options = {
           django_settings_module = 'settings.py',
           docker_compose_file = 'docker-compose.yml',
           docker_compose_service = 'django',
         },
+      }
+      require('lspconfig').biome.setup {
+        cmd = {'biome', 'lsp-proxy'},
+        filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'typescript.tsx' },
       }
     end,
   },
@@ -619,11 +622,12 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      {'onsails/lspkind.nvim',
+      {
+        'onsails/lspkind.nvim',
         config = function()
           require('lspkind').init()
-        end
-      }
+        end,
+      },
     },
     config = function()
       local cmp = require 'cmp'
@@ -869,4 +873,3 @@ require('lazy').setup({
 
 -- vim.cmd.colorscheme 'onedark_dark'
 vim.cmd.colorscheme 'onedark'
-

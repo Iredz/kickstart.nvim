@@ -4,13 +4,14 @@ return {
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
+      vim.env.ESLINT_D_PPID = vim.fn.getpid()
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         html = { 'htmlhint' },
         -- css = { 'stylelint' },
-        -- javascript = { 'eslint_d' },
-        -- typescript = { 'eslint_d' },
+        javascript = { 'eslint_d' },
+        typescript = { 'eslint_d' },
         go = { 'revive' },
         python = { 'pylint' },
         django = { 'djlint' },
