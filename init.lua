@@ -513,11 +513,10 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua',
         'gofumpt',
-        'biome',
         'blue',
         'revive',
         'prettierd',
-        'djlint'
+        'djlint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -620,13 +619,30 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-nvim-lsp-signature-help',
+      {'onsails/lspkind.nvim',
+        config = function()
+          require('lspkind').init()
+        end
+      }
     },
     config = function()
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
+      local lspkind = require 'lspkind'
       luasnip.config.setup {}
 
       cmp.setup {
+        formatting = {
+          format = lspkind.cmp_format {
+            mode = 'symbol_text', -- text text_symbol symbol_text symbol
+            maxwidth = {
+              menu = 50, -- leading text (labelDetails)
+              abbr = 50, -- actual suggestion item
+            },
+            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+            show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+          },
+        },
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -851,4 +867,6 @@ require('lazy').setup({
   },
 })
 
-vim.cmd.colorscheme 'one_monokai'
+-- vim.cmd.colorscheme 'onedark_dark'
+vim.cmd.colorscheme 'onedark'
+

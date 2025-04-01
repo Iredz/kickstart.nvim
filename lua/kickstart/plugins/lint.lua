@@ -8,9 +8,9 @@ return {
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         html = { 'htmlhint' },
-        css = { 'stylelint' },
-        javascript = { 'biome' },
-        typescript = { 'biome' },
+        -- css = { 'stylelint' },
+        -- javascript = { 'eslint_d' },
+        -- typescript = { 'eslint_d' },
         go = { 'revive' },
         python = { 'pylint' },
         django = { 'djlint' },

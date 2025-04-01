@@ -114,7 +114,12 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      vim.g.gruvbox_material_enable_italic = true
+      vim.g.gruvbox_material_better_performance = 1,
+      vim.g.gruvbox_material_enable_italic == true
+      vim.g.gruvbox_material_enable_bold = 1
+      vim.g.gruvbox_material_background = 'hard' --- hard medium soft
+      vim.g.gruvbox_material_foreground = 'material'  -- material mix original
+      vim.g.gruvbox_material_cursor = 'aqua'  
     end,
   },
   {
@@ -135,6 +140,8 @@ return {
   { 'rose-pine/neovim', name = 'rose-pine', opts = {
     styles = {
       transparency = false,
+      bold = true,
+      italics = true
     },
   } },
   {
@@ -162,6 +169,25 @@ return {
   },
   {
     'olimorris/onedarkpro.nvim',
-    priority = 1000, 
+    priority = 1000,
+    config = function()
+      require('onedarkpro').setup {
+        styles = {
+          types = 'NONE',
+          methods = 'bold',
+          numbers = 'NONE',
+          strings = 'NONE',
+          comments = 'italic',
+          keywords = 'bold,italic',
+          constants = 'italic',
+          functions = 'bold,italic',
+          operators = 'NONE',
+          variables = 'NONE',
+          parameters = 'NONE',
+          conditionals = 'italic',
+          virtual_text = 'NONE',
+        },
+      }
+    end,
   },
 }
