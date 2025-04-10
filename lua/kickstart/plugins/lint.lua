@@ -12,7 +12,6 @@ return {
         -- css = { 'stylelint' },
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
-        go = { 'revive' },
         python = { 'pylint' },
         django = { 'djlint' },
         htmldjango = { 'djlint' },

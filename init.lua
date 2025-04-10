@@ -9,6 +9,7 @@ vim.g.have_nerd_font = true
 -- Disable Netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
@@ -491,6 +492,7 @@ require('lazy').setup({
         ts_ls = {},
         cssls = {},
         html = {},
+        biome = {},
         emmet_ls = {},
         jsonls = {},
         lua_ls = {
@@ -539,10 +541,6 @@ require('lazy').setup({
           docker_compose_service = 'django',
         },
       }
-      require('lspconfig').biome.setup {
-        cmd = {'biome', 'lsp-proxy'},
-        filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'typescript.tsx' },
-      }
     end,
   },
 
@@ -585,8 +583,10 @@ require('lazy').setup({
         html = { 'prettierd' },
         htmldjango = { 'djlint' },
         css = { 'prettierd' },
-        javascript = { 'biome', 'prettierd', stop_after_first = true },
-        typescript = { 'biome', 'prettierd', stop_after_first = true },
+        -- javascript = { 'biome', 'prettierd', stop_after_first = true },
+        -- typescript = { 'biome', 'prettierd', stop_after_first = true },
+        javascript = { 'prettierd' },
+        typescript = { 'prettierd' },
       },
     },
   },
