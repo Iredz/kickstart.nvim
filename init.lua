@@ -479,7 +479,7 @@ require('lazy').setup({
         gopls = {},
         pyright = {},
         -- djlsp = {
-        --   cmd = { '/home/redz/.local/share/nvim/mason/packages/django-template-lsp/venv/bin/django-template-lsp' },
+        --   -- cmd = { '/home/redz/.local/share/nvim/mason/packages/django-template-lsp/venv/bin/django-template-lsp' },
         --   init_options = {
         --     django_settings_module = 'settings.py',
         --   },
@@ -540,6 +540,9 @@ require('lazy').setup({
           docker_compose_file = 'docker-compose.yml',
           docker_compose_service = 'django',
         },
+        root_dir = function(fname)
+          return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+        end,
       }
     end,
   },
@@ -579,7 +582,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gofumpt' },
-        python = { 'blue', 'ruff' },
+        python = { 'blue', 'ruff', stop_after_first = true },
         html = { 'prettierd' },
         htmldjango = { 'djlint' },
         css = { 'prettierd' },
