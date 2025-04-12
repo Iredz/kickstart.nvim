@@ -95,18 +95,12 @@ return {
   },
   { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
   {
-    'cpea2506/one_monokai.nvim',
-    opts = {
-      transparent = true,
-      italics = true,
-    },
-  },
-  {
-    'sainnhe/sonokai',
-    lazy = false,
-    priority = 1000,
+    'loctvl842/monokai-pro.nvim',
     config = function()
-      vim.g.sonokai_enable_italic = true
+      require('monokai-pro').setup {
+        transparent_background = false,
+        filter = 'pro', -- classic | octagon | pro | machine | risetto | spectrum
+      }
     end,
   },
   {
@@ -114,12 +108,11 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      vim.g.gruvbox_material_better_performance = 1,
-      vim.g.gruvbox_material_enable_italic == true
+      vim.g.gruvbox_material_better_performance = 1, vim.g.gruvbox_material_enable_italic == true
       vim.g.gruvbox_material_enable_bold = 1
       vim.g.gruvbox_material_background = 'hard' --- hard medium soft
-      vim.g.gruvbox_material_foreground = 'material'  -- material mix original
-      vim.g.gruvbox_material_cursor = 'aqua'  
+      vim.g.gruvbox_material_foreground = 'material' -- material mix original
+      vim.g.gruvbox_material_cursor = 'aqua'
     end,
   },
   {
@@ -141,7 +134,7 @@ return {
     styles = {
       transparency = false,
       bold = true,
-      italics = true
+      italics = true,
     },
   } },
   {

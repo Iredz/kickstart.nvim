@@ -875,4 +875,4 @@ require('lazy').setup({
 })
 
 -- vim.cmd.colorscheme 'onedark_dark'
-vim.cmd.colorscheme 'onedark'
+vim.cmd.colorscheme 'monokai-pro'
