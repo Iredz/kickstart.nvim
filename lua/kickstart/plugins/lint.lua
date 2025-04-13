@@ -12,7 +12,7 @@ return {
         -- css = { 'stylelint' },
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
-        -- python = { 'pylint' },
+        python = { 'pylint' },
         django = { 'djlint' },
         htmldjango = { 'djlint' },
       }

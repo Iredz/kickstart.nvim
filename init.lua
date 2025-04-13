@@ -103,6 +103,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+  pattern = { '*/templates/*.html', '*/templates/*/*.html', '*/templates/*/*/*.html', '*/templates/*.django', '*/templatetags/*.py' },
+  callback = function()
+    vim.bo.filetype = 'htmldjango'
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -478,17 +485,6 @@ require('lazy').setup({
       local servers = {
         gopls = {},
         pyright = {},
-        -- djlsp = {
-        --   -- cmd = { '/home/redz/.local/share/nvim/mason/packages/django-template-lsp/venv/bin/django-template-lsp' },
-        --   init_options = {
-        --     django_settings_module = 'settings.py',
-        --   },
-        --   filetypes = { 'html', 'htmldjango' },
-        --   root_dir = function(fname)
-        --     return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
-        --   end,
-        --   settings = {},
-        -- },
         ts_ls = {},
         cssls = {},
         html = {},
@@ -534,15 +530,24 @@ require('lazy').setup({
         },
       }
       require('lspconfig').djlsp.setup {
-        filetypes = { 'html', 'htmldjango' },
+        -- cmd = { 'djlsp' },
+        filetypes = { 'django-html', 'htmldjango', 'python' },
         init_options = {
-          django_settings_module = 'settings.py',
+          workspace = vim.fn.getcwd(),
+          project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':t'),
+          -- django_settings_module = 'mysite.settings',
           docker_compose_file = 'docker-compose.yml',
           docker_compose_service = 'django',
         },
         root_dir = function(fname)
-          return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+          return require('lspconfig.util').root_pattern 'manage.py'(fname)
         end,
+        settings = {
+          djlsp = {
+            enabled = true,
+            verbose = true,
+          },
+        },
       }
     end,
   },
@@ -582,7 +587,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gofumpt' },
-        python = { 'blue', 'ruff', stop_after_first = true },
+        python = { 'black' },
         html = { 'prettierd' },
         htmldjango = { 'djlint' },
         css = { 'prettierd' },
@@ -875,4 +880,4 @@ require('lazy').setup({
 })
 
 -- vim.cmd.colorscheme 'onedark_dark'
-vim.cmd.colorscheme 'monokai-pro'
+vim.cmd.colorscheme 'monokai-pro-spectrum'
