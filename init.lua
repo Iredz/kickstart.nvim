@@ -443,14 +443,20 @@ require('lazy').setup({
         severity_sort = true,
         float = { border = 'rounded', source = 'if_many' },
         underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
-          text = {
-            [vim.diagnostic.severity.ERROR] = '󰅚 ',
-            [vim.diagnostic.severity.WARN] = '󰀪 ',
-            [vim.diagnostic.severity.INFO] = '󰋽 ',
-            [vim.diagnostic.severity.HINT] = '󰌶 ',
-          },
-        } or {},
+        signs = vim.g.have_nerd_font
+            and {
+              text = {
+                [vim.diagnostic.severity.ERROR] = 'E',
+                [vim.diagnostic.severity.WARN] = 'W',
+                [vim.diagnostic.severity.INFO] = 'I',
+                [vim.diagnostic.severity.HINT] = 'H',
+                -- [vim.diagnostic.severity.ERROR] = '󰅚 ',
+                -- [vim.diagnostic.severity.WARN] = '󰀪 ',
+                -- [vim.diagnostic.severity.INFO] = '󰋽 ',
+                -- [vim.diagnostic.severity.HINT] = '󰌶 ',
+              },
+            }
+          or {},
         virtual_text = {
           source = 'if_many',
           spacing = 2,
@@ -629,6 +635,7 @@ require('lazy').setup({
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       {
         'onsails/lspkind.nvim',
@@ -644,6 +651,10 @@ require('lazy').setup({
       luasnip.config.setup {}
 
       cmp.setup {
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
         formatting = {
           format = lspkind.cmp_format {
             mode = 'symbol_text', -- text text_symbol symbol_text symbol
@@ -720,6 +731,7 @@ require('lazy').setup({
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'nvim_lsp_signature_help' },
+           { name = 'buffer' },
         },
       }
     end,

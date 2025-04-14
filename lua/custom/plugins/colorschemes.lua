@@ -99,7 +99,7 @@ return {
     config = function()
       require('monokai-pro').setup {
         transparent_background = false,
-        filter = 'pro', -- classic | octagon | pro | machine | risetto | spectrum
+        filter = 'spectrum', -- classic | octagon | pro | machine | risetto | spectrum
       }
     end,
   },
