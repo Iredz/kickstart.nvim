@@ -536,7 +536,7 @@ require('lazy').setup({
         },
       }
       require('lspconfig').djlsp.setup {
-        -- cmd = { 'djlsp' },
+        cmd = { 'djlsp' },
         filetypes = { 'django-html', 'htmldjango', 'python' },
         init_options = {
           workspace = vim.fn.getcwd(),
@@ -891,5 +891,4 @@ require('lazy').setup({
   },
 })
 
--- vim.cmd.colorscheme 'onedark_dark'
-vim.cmd.colorscheme 'monokai-pro-spectrum'
+vim.cmd.colorscheme 'onedark'
