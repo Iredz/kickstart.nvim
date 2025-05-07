@@ -490,7 +490,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         gopls = {},
-        pyright = {},
+        ruff = {},
         ts_ls = {},
         cssls = {},
         html = {},
@@ -531,30 +531,83 @@ require('lazy').setup({
           function(server_name)
             local server = servers[server_name] or {}
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            filetypes = servers[server_name].filetypes, require('lspconfig')[server_name].setup(server)
           end,
         },
       }
-      require('lspconfig').djlsp.setup {
-        cmd = { 'djlsp' },
-        filetypes = { 'django-html', 'htmldjango', 'python' },
-        init_options = {
-          workspace = vim.fn.getcwd(),
-          project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':t'),
-          -- django_settings_module = 'mysite.settings',
-          docker_compose_file = 'docker-compose.yml',
-          docker_compose_service = 'django',
+      local djlsp_path = vim.fn.trim(vim.fn.system 'which djlsp')
+
+      -- If not found via which, try common pipx paths
+      if djlsp_path == '' or djlsp_path:match 'not found' then
+        local home = os.getenv 'HOME'
+        local possible_paths = {
+          home .. '/.local/bin/djlsp',
+          home .. '/.pipx/venvs/djlsp/bin/djlsp',
+        }
+
+        for _, path in ipairs(possible_paths) do
+          if vim.fn.filereadable(path) == 1 then
+            djlsp_path = path
+            break
+          end
+        end
+      end
+
+      -- If still not found, check virtual environment
+      if djlsp_path == '' or djlsp_path:match 'not found' then
+        local venv_path = vim.fn.getcwd() .. '/venv/bin/djlsp'
+        if vim.fn.filereadable(venv_path) == 1 then
+          djlsp_path = venv_path
+        end
+      end
+
+      local lspconfig = require 'lspconfig'
+
+      lspconfig.djlsp.setup {
+        cmd = { djlsp_path ~= '' and djlsp_path or 'djlsp' },
+        filetypes = { 'python', 'django-html', 'django-python', 'htmldjango' },
+        root_dir = lspconfig.util.root_pattern('manage.py', 'pyproject.toml', 'setup.py', 'setup.cfg'),
+        capabilities = capabilities,
+        flags = {
+          debounce_text_changes = 150,
         },
-        root_dir = function(fname)
-          return require('lspconfig.util').root_pattern 'manage.py'(fname)
-        end,
-        settings = {
-          djlsp = {
-            enabled = true,
-            verbose = true,
+      }
+      vim.filetype.add {
+        pattern = {
+          ['.*%.html'] = {
+            priority = 10,
+            function(path, bufnr)
+              local content = vim.api.nvim_buf_get_lines(bufnr, 0, 100, false)
+              for _, line in ipairs(content) do
+                if line:match '{{' or line:match '{%%' then
+                  return 'htmldjango'
+                end
+              end
+            end,
           },
         },
       }
+
+      -- require('lspconfig').djlsp.setup {
+      --   cmd = { 'djlsp' },
+      --   filetypes = { 'django-html', 'htmldjango', 'python' },
+      --   init_options = {
+      --     workspace = vim.fn.getcwd(),
+      --     project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':t'),
+      --     -- django_settings_module = 'mysite.settings',
+      --     docker_compose_file = 'docker-compose.yml',
+      --     docker_compose_service = 'django',
+      --   },
+      --   root_dir = function(fname)
+      --     return require('lspconfig.util').root_pattern 'manage.py'(fname)
+      --   end,
+      --   settings = {
+      --     djlsp = {
+      --       enabled = true,
+      --       verbose = true,
+      --     },
+      --   },
+      -- }
     end,
   },
 
@@ -593,7 +646,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gofumpt' },
-        python = { 'black' },
+        python = { 'ruff','blue', stop_after_first = true },
         html = { 'prettierd' },
         htmldjango = { 'djlint' },
         css = { 'prettierd' },
@@ -731,7 +784,7 @@ require('lazy').setup({
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'nvim_lsp_signature_help' },
-           { name = 'buffer' },
+          { name = 'buffer' },
         },
       }
     end,
@@ -782,7 +835,7 @@ require('lazy').setup({
       -- }
 
       vim.keymap.set('n', '<leader>bd', '<CMD>lua MiniBufremove.delete()<CR>', { desc = 'Toggle Mini Files' })
-      vim.keymap.set('n', '<leader>e', '<CMD>lua MiniFiles.open()<CR>', { desc = 'Toggle Mini Files' })
+      -- vim.keymap.set('n', '<leader>e', '<CMD>lua MiniFiles.open()<CR>', { desc = 'Toggle Mini Files' })
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
