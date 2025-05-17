@@ -88,17 +88,23 @@ return {
     'comfysage/evergarden',
     priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
     opts = {
-      transparent_background = false,
+      transparent_background = true,
       contrast_dark = 'medium', -- 'hard'|'medium'|'soft'
       overrides = {}, -- add custom overrides
     },
   },
-  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
+  { 'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
+    opts = {
+      transparent_background = true,
+    }
+  },
   {
     'loctvl842/monokai-pro.nvim',
     config = function()
       require('monokai-pro').setup {
-        transparent_background = false,
+        transparent_background = true,
         filter = 'spectrum', -- classic | octagon | pro | machine | risetto | spectrum
       }
     end,
@@ -123,8 +129,8 @@ return {
       require('nordic').load()
       require('nordic').setup {
         transparent = {
-          bg = false,
-          float = false,
+          bg = true,
+          float = true,
         },
       }
     end,
@@ -132,7 +138,7 @@ return {
   { 'shaunsingh/nord.nvim', lazy = false, priority = 1000 },
   { 'rose-pine/neovim', name = 'rose-pine', opts = {
     styles = {
-      transparency = false,
+      transparency = true,
       bold = true,
       italics = true,
     },
@@ -142,7 +148,7 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-      transparent = false,
+      transparent = true,
       terminal_colors = true,
       styles = {
         comments = { italic = true },

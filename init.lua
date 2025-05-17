@@ -295,8 +295,6 @@ require('lazy').setup({
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
 
-      -- It's also possible to pass additional configuration options.
-      --  See `:help telescope.builtin.live_grep()` for information about particular keys
       vim.keymap.set('n', '<leader>s/', function()
         builtin.live_grep {
           grep_open_files = true,
@@ -334,7 +332,17 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = { notification = { override_vim_notify = true } } },
+      {
+        'j-hui/fidget.nvim',
+        opts = {
+          notification = {
+            override_vim_notify = true,
+            window = {
+              winblend = 0,
+            },
+          },
+        },
+      },
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
@@ -490,7 +498,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         gopls = {},
-        ruff = {},
+        pyright = {},
         ts_ls = {},
         cssls = {},
         html = {},
@@ -646,7 +654,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gofumpt' },
-        python = { 'ruff','blue', stop_after_first = true },
+        python = { 'ruff', 'blue', stop_after_first = true },
         html = { 'prettierd' },
         htmldjango = { 'djlint' },
         css = { 'prettierd' },
@@ -705,8 +713,8 @@ require('lazy').setup({
 
       cmp.setup {
         window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
+          -- completion = cmp.config.window.bordered(),
+          -- documentation = cmp.config.window.bordered(),
         },
         formatting = {
           format = lspkind.cmp_format {
@@ -800,6 +808,7 @@ require('lazy').setup({
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require('tokyonight').setup {
+        transparent = true,
         styles = {
           comments = { italic = true },
         },
@@ -944,4 +953,4 @@ require('lazy').setup({
   },
 })
 
-vim.cmd.colorscheme 'nord'
+vim.cmd.colorscheme 'tokyonight-moon'
